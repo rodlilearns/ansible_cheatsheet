@@ -35,6 +35,7 @@ $ ssh-add
 
 ### Subcommands 
 | Automation content navigator subcommand | Description | CLI Example |
+| --------------------------------------- | ----------- | ----------- |
 | builder | Build ee (container image) | ansible-navigator builder --help |
 | collections | Explore available collections | ansible-navigator collections --help |
 | config | Explore the current ansible configuration | ansible-navigator config --help |
