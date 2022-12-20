@@ -3,34 +3,34 @@
 ## Automation Content Navigator
 ---
 
-Run a playbook: 
-`$ ansible-navigator run playbook.yml -i inventory -m stdout` 
+Run a playbook:  
+`$ ansible-navigator run playbook.yml -i inventory -m stdout`  
 
-Run a playbook in interactive mode: 
+Run a playbook in interactive mode:  
 `$ ansible-navigator run playbook.yml -i inventory` 
 
-Launch Automation Content Navigator: 
+Launch Automation Content Navigator:  
 `$ ansible-navigator --eei <execution_env_image_name>` 
-Run the playbook in interactive mode:
+Run the playbook in interactive mode:  
 `:run <playbook.yml>` 
-Display details for the play 
+Display details for the play:  
 `<number>` 
-Return to main playbook summary screen. 
+Return to main playbook summary screen:  
 `ESC` 
-Exit the ansible-navigator command: 
+Exit the ansible-navigator command:  
 `:q` 
 
-Install Automation Content Navigator:
+Install Automation Content Navigator:  
 `$ sudo subscription-manager register`
 `$ sudo subscription-manager repos --enable <ansible-automation-platform-_____-rpms>`
 `$ sudo dnf install ansible-navigator`
 
 *Ansible navigator runs the playbook inside a container that can't see ~/.ssh. However, ansible-navigator can provide those keys to the execution environment through the use of ssh-agent on the Control Node.* 
 
-Start the ssh-agent on the Control Node: 
+Start the ssh-agent on the Control Node:  
 $ eval $(ssh-agent)
 
-Provide passphrase for private key: 
+Provide passphrase for private key:  
 $ ssh-add
 
 ### Subcommands 
