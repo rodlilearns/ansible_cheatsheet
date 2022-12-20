@@ -3,6 +3,11 @@
 ## Automation Content Navigator
 ---
 
+Install Automation Content Navigator:  
+`$ sudo subscription-manager register`  
+`$ sudo subscription-manager repos --enable <ansible-automation-platform-_____-rpms>`  
+`$ sudo dnf install ansible-navigator`  
+
 Run a playbook:  
 `$ ansible-navigator run playbook.yml -i inventory -m stdout`  
 
@@ -20,10 +25,19 @@ Return to main playbook summary screen:
 Exit the ansible-navigator command:  
 `:q`  
 
-Install Automation Content Navigator:  
-`$ sudo subscription-manager register`  
-`$ sudo subscription-manager repos --enable <ansible-automation-platform-_____-rpms>`  
-`$ sudo dnf install ansible-navigator`  
+Run a playbook using a specific automation execution environment:  
+`$ ansible-navigator run <playbook.yml> --eei <registry_server_url>/<image>`  
+*Make sure you are logged into the registry first with podman login*
+
+Control the behaviour of the pulling of ee:  
+`$ ansible-navigator run <playbook.yml> --pull-policy`
+
+| Option | Description |
+| ------ | ----------- |
+| always | Always pulls the image |
+| missing | Only pulls the image if not already available locally |
+| never | Never pulls the image |
+| tag | Pulls the image if the image's tag is `latest` or if not already available locally (the default) |
 
 *Ansible navigator runs the playbook inside a container that can't see ~/.ssh. However, ansible-navigator can provide those keys to the execution environment through the use of ssh-agent on the Control Node.* 
 
