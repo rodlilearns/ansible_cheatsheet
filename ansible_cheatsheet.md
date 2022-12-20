@@ -65,4 +65,22 @@ collections:
 
 `$ ansible-galaxy collection install -r requirements.yml`
 
+## Configuring Collection Sources
 
+Add the following directives to the ansible.cfg file.
+
+```
+[galaxy]
+server_list = <pah>, automation_hub, galaxy
+
+[galaxy_server.<pah>]
+url=<private_automation_hub_server_url/api/content/rh-certified>/
+token=<token>
+
+[galaxy_server.automation_hub]
+url=<repo_server_url>/
+auth_url=<url_to_access_distribution_platform>
+token=<token>
+
+[galaxy_server.galaxy]
+url=https://galaxy.ansible.com/
