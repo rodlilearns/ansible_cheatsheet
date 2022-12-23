@@ -42,10 +42,13 @@ Control the behaviour of the pulling of ee:
 *Ansible navigator runs the playbook inside a container that can't see ~/.ssh. However, ansible-navigator can provide those keys to the execution environment through the use of ssh-agent on the Control Node.* 
 
 Start the ssh-agent on the Control Node:  
-$ eval $(ssh-agent)
+`$ eval $(ssh-agent)`
 
 Provide passphrase for private key:  
-$ ssh-add
+`$ ssh-add`
+
+Inspect Ansible Configuration in Standard Output Mode:  
+`$ ansible-navigator config -m stdout dump`
 
 ### Subcommands 
 | Automation content navigator subcommand | Description | CLI Example |
@@ -98,3 +101,57 @@ token=<token>
 
 [galaxy_server.galaxy]
 url=https://galaxy.ansible.com/
+```
+
+## Creating Content Collections and EEs
+
+1. Create a Collection Directory Structure:  
+`$ ansible-galaxy collection init <namespace>.<collection>`  
+
+2. Add Content to a Collection:  
+For modules, create the `plugins/modules/` subdirectory and copy Python scripts for the modules into that subdirectory.  
+For inventory plug-ins, create and use the `plugins/inventory/` subdirectory. 
+For roles, move their directory structure under the `roles/` directory.  
+
+3. Update Collection Metadata:  
+
+4. Declare Collection Dependencies:  
+Python dependencies require a requirements.txt file at the root of the collection.  
+The version part at the end of the package name is optional if you don't require a specific version.  
+
+```
+botocore>=1.18.0
+boto3>=1.15.0
+boto>=2.49.0
+```
+
+Some collections require system-level packages in the EE.  
+E.g. ansible.posix collection requires the rsync RPM package.  
+At the root of the collection, create the bindep.txt file and list the RPM packages, one per line.  
+`rsync [platform:centos-8 platform:rhel-8]`  
+Another standard directive is [platform:rpm], which targets all Linux distributions that use the RPM packaging system.  
+
+Add additional metadata for collection in the `meta/runtime.yml` file.  
+If the collection requires a specific version of Ansible, then add the `requires_ansible` parameter to the file.  
+```
+---
+requires_ansible: ">=2.10"
+```  
+
+Note: the meta/runtime.yml and the requires_ansible parameter are mandatory if you plan to publish your collection to Ansible Galaxy, Automation Hub, or Private Automation Hub. Otherwise, the validation process rejects the collection.  
+
+4. Build the Collection:  
+From inside the collection directory, run the build command:  
+`$ ansible-galaxy collection build`  
+
+5. Publish Collection:  
+On PAH, navigate to Collections -> Namespaces  
+Select <namespace>  
+Click Upload collection  
+Provide the .tar.gz file  
+Approve Collection  
+
+Alternatively  
+Obtain an auth token  
+Store it in `~/.ansible/galaxy_token`  
+`$ ansible-galaxy collection publish <namespace>-<collection>.tar.gz
